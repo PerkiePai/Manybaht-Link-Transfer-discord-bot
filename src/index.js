@@ -37,7 +37,7 @@ client.on('messageCreate',(message)=>{
 function encodeYouTubeLink(youtubeLink) {
     // RSA public key components
     const RSA_PUBLIC_EXPONENT = bigInt("65537");
-    const RSA_MODULUS = bigInt("187599471745651066694125607");
+    const RSA_MODULUS = bigInt("182055014220670685208701393");
 
     // Helper function for RSA encryption
     function rsaEncrypt(input, exponent, modulus) {
