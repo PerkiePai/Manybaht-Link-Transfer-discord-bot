@@ -20,12 +20,17 @@ client.on('ready',(c)=>{
 
 client.on('messageCreate',(message)=>{
     console.log(message.content);
-    if (message.author.bot){
-        return;
+    try {
+        if (message.author.bot){
+            return;
+        }
+        if (message.content==='hello') {
+            message.reply('hello');
+        }
+    } catch (error) {
+        console.log(`Error in messageCreate: ${error.message}`);
     }
-    if (message.content==='hello') {
-        message.reply('hello');
-    }
+
 });
 
 //Encoder func by NuttoFreshy with his CHATGPT
@@ -91,22 +96,27 @@ function encodeYouTubeLink(youtubeLink) {
 }
 
 client.on('interactionCreate',(interaction)=>{
-    if (!interaction.isChatInputCommand()) return;
+    try {
+        if (!interaction.isChatInputCommand()) return;
 
-    console.log(interaction.commandName);
+        console.log(interaction.commandName);
+    
+        if (interaction.commandName==='help') {
+            interaction.reply('(/)pai \n')
+        };
+    
+        if (interaction.commandName==='pai') {
+            if (!interaction.options.get('query').value.includes('www.youtube.com/watch?v=')) {
+                return interaction.reply('Wrong Input!')
+            }
+            interaction.reply("```"+encodeYouTubeLink(interaction.options.get('query').value)+"```")
+            // console.log(interaction.options.get('query').value)
+            // interaction.reply('Hey!')
+        };
+    } catch (error) {
+        console.error(`Error in messageCreate: ${error.message}`);
+    }
 
-    if (interaction.commandName==='help') {
-        interaction.reply('(/)pai \n')
-    };
-
-    if (interaction.commandName==='pai') {
-        if (!interaction.options.get('query').value.includes('www.youtube.com/watch?v=')) {
-            return interaction.reply('Wrong Input!')
-        }
-        interaction.reply("```"+encodeYouTubeLink(interaction.options.get('query').value)+"```")
-        // console.log(interaction.options.get('query').value)
-        // interaction.reply('Hey!')
-    };
 });
 
 client.login(process.env.TOKEN);
